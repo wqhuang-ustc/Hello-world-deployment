@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  frontend:
+    image: kylinhuang/hello_world_frontend:latest
+    container_name: frontend
+    ports:
+      - 80:80
+
+  backend:
+    image: kylinhuang/hello_world_backend:latest
+    container_name: backend
+    ports:
+      - 8080:8080
