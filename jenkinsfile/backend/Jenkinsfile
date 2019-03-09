@@ -1,0 +1,52 @@
+pipeline {
+    agent {
+        label 'node1'
+    } 
+    parameters {
+        //string for image version control
+        string(name: 'TAG_BACKEND',defaultValue: '0.0.0', description: 'use this parameter to control the version of docker image')
+    }
+    stages {
+        
+        stage('compile_image') {
+            steps {
+                echo 'compile docker image'
+                sh "mkdir -p backend"
+                dir("./backend"){
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+                        doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
+                        userRemoteConfigs: [[ url: 'https://github.com/wqhuang-ustc/Hello-world-deployment.git']]])
+                    dir("./dockerfile/backend"){
+                        sh "docker build --no-cache -t registry.hub.docker.com/kylinhuang/hello_world_backend:${params.TAG_BACKEND} ."
+                        sh "docker tag registry.hub.docker.com/kylinhuang/hello_world_backend:${params.TAG_BACKEND} registry.hub.docker.com/kylinhuang/hello_world_backend:latest" 
+                        withDockerRegistry([credentialsId: 'dockerhub', url: 'http://registry.hub.docker.com']){
+                            sh "docker push registry.hub.docker.com/kylinhuang/hello_world_backend:${params.TAG_BACKEND}"
+                            sh "docker push registry.hub.docker.com/kylinhuang/hello_world_backend:latest"
+                        }
+                    }
+                }
+                //rm image after push to save disk
+                sh "docker rmi -f registry.hub.docker.com/kylinhuang/hello_world_backend:${params.TAG_BACKEND}"
+                sh "docker rmi -f registry.hub.docker.com/kylinhuang/hello_world_backend:latest"
+                // sh "docker ps -q |xargs docker rm ; ture"
+                // sh "docker images -q |xargs docker rmi; ture"
+            }
+        }
+
+        // stage('trigger deployment_tw'){
+        //     steps {
+        //         build job: 'deploy_production_tw', parameters: [
+        //             [$class: 'StringParameterValue', name: 'TAG_BACKEND', value: "${params.TAG_BACKEND}"]
+        //         ]
+        //     }
+        //     post{
+        //         success {
+        //             slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        //         }
+        //         failure {
+        //             slackSend (color: '#FF0000', message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        //         }
+        //     }            
+        // }       
+    } 
+}
