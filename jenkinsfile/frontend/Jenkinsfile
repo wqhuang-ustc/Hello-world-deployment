@@ -17,17 +17,17 @@ pipeline {
                         doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
                         userRemoteConfigs: [[ url: 'https://github.com/wqhuang-ustc/Hello-world-deployment.git']]])
                     dir("./dockerfile/frontend"){
-                        sh "docker build --no-cache -t kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} ."
-                        sh "docker tag kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} kylinhuang/hello_world_frontend:latest" 
+                        sh "docker build --no-cache -t registry.hub.docker.com/kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} ."
+                        sh "docker tag registry.hub.docker.com/kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} registry.hub.docker.com/kylinhuang/hello_world_frontend:latest" 
                         withDockerRegistry([credentialsId: 'dockerhub', url: 'http://registry.hub.docker.com']){
-                            sh "docker push kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
-                            sh "docker push kylinhuang/hello_world_frontend:latest"
+                            sh "docker push registry.hub.docker.com/kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
+                            sh "docker push registry.hub.docker.com/kylinhuang/hello_world_frontend:latest"
                         }
                     }
                 }
                 //rm image after push to save disk
-                sh "docker rmi -f kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
-                sh "docker rmi -f kylinhuang/hello_world_frontend:latest"
+                sh "docker rmi -f registry.hub.docker.com/kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
+                sh "docker rmi -f registry.hub.docker.com/kylinhuang/hello_world_frontend:latest"
                 // sh "docker ps -q |xargs docker rm ; ture"
                 // sh "docker images -q |xargs docker rmi; ture"
             }
