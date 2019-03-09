@@ -1,0 +1,23 @@
+pipeline {
+    agent {
+        label 'node1'
+    }
+    parameters {
+        //string for image version control
+        string(name: 'TAG',defaultValue: '0.0.0', description: 'use this parameter to control the version of frontend image')
+    }
+
+    stages {
+        stage('deploy on k8s cluster'){
+        steps {
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+                doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
+                userRemoteConfigs: [[ url: 'https://github.com/wqhuang-ustc/Hello-world-deployment.git']]])
+            dir('./script_for_deployment'){
+                sh "ssh -i /home/ubuntu/hello-world.pem ubuntu@ec2-34-245-28-220.eu-west-1.compute.amazonaws.com 'bash -s' < frontend.sh ${params.TAG} "
+                }
+            //slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
+        }  
+    }
+}
