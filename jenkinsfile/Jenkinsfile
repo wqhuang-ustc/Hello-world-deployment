@@ -1,0 +1,52 @@
+pipeline {
+    agent {
+        label 'master'
+    } 
+    parameters {
+        //string for image version control
+        string(name: 'TAG_FRONTEND',defaultValue: '0.0.0', description: 'use this parameter to control the version of docker image')
+    }
+    stages {
+        
+        stage('compile_image') {
+            steps {
+                echo 'compile docker image'
+                sh "mkdir -p frontend"
+                dir("./frontend"){
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+                        doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
+                        userRemoteConfigs: [[credentialsId: '2b20ba12-7bc7-4129-ad8b-6e27b89920a8', url: 'https://github.com/wqhuang-ustc/Hello-world-deployment.git']]])
+                    dir("./dockerfile/frontend"){
+                        sh "docker build --no-cache -t kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} ."
+                        sh "docker tag kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} kylinhuang/hello_world_frontend:latest" 
+                        withDockerRegistry([credentialsId: '2faf73aa-ef16-46ef-a77d-7af5a1fd3bce', url: 'http://registry-vpc.cn-qingdao.aliyuncs.com']){
+                            sh "docker push kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
+                            sh "docker push kylinhuang/hello_world_frontend:latest"
+                        }
+                    }
+                }
+                //rm image after push to save disk
+                sh "docker rmi -f kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
+                sh "docker rmi -f kylinhuang/hello_world_frontend:latest"
+                // sh "docker ps -q |xargs docker rm ; ture"
+                // sh "docker images -q |xargs docker rmi; ture"
+            }
+        }
+
+        // stage('trigger deployment_tw'){
+        //     steps {
+        //         build job: 'deploy_production_tw', parameters: [
+        //             [$class: 'StringParameterValue', name: 'TAG_FRONTEND', value: "${params.TAG_FRONTEND}"]
+        //         ]
+        //     }
+        //     post{
+        //         success {
+        //             slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        //         }
+        //         failure {
+        //             slackSend (color: '#FF0000', message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        //         }
+        //     }            
+        // }       
+    } 
+}
