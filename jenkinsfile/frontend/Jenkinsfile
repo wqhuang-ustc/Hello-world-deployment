@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'master'
+        label 'node1'
     } 
     parameters {
         //string for image version control
@@ -15,7 +15,7 @@ pipeline {
                 dir("./frontend"){
                     checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
                         doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], 
-                        userRemoteConfigs: [[credentialsId: '2b20ba12-7bc7-4129-ad8b-6e27b89920a8', url: 'https://github.com/wqhuang-ustc/Hello-world-deployment.git']]])
+                        userRemoteConfigs: [[ url: 'https://github.com/wqhuang-ustc/Hello-world-deployment.git']]])
                     dir("./dockerfile/frontend"){
                         sh "docker build --no-cache -t kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} ."
                         sh "docker tag kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} kylinhuang/hello_world_frontend:latest" 
