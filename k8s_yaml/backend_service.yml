@@ -6,8 +6,6 @@ metadata:
     name: backend-svc
 spec:
   type: ClusterIP
-  sessionAffinity: ClientIP
-  #externalTrafficPolicy: Local
   ports:
     - port: 5000
       targetPort: 5000

@@ -5,7 +5,7 @@ metadata:
   labels:
     name: frontend-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: frontend
