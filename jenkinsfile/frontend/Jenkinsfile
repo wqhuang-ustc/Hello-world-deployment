@@ -19,7 +19,7 @@ pipeline {
                     dir("./dockerfile/frontend"){
                         sh "docker build --no-cache -t kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} ."
                         sh "docker tag kylinhuang/hello_world_frontend:${params.TAG_FRONTEND} kylinhuang/hello_world_frontend:latest" 
-                        withDockerRegistry([credentialsId: '2faf73aa-ef16-46ef-a77d-7af5a1fd3bce', url: 'http://registry-vpc.cn-qingdao.aliyuncs.com']){
+                        withDockerRegistry([credentialsId: 'dockerhub', url: 'http://registry.hub.docker.com']){
                             sh "docker push kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
                             sh "docker push kylinhuang/hello_world_frontend:latest"
                         }
