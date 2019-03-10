@@ -22,9 +22,9 @@ spec:
             protocol: TCP
         env:
           - name: DD_API_KEY
-            value: aca9f72351b7b9b15d9509f95cc96756
+            value: 132a62acfe1e290991d127e68a7a7c2f
           - name: KUBERNETES
-            value: "yes"
+            value: "true"
           - name: DD_KUBERNETES_KUBELET_HOST
             valueFrom:
               fieldRef:
