@@ -1,0 +1,20 @@
+pipeline {
+    agent {
+        label 'node1'
+    }
+
+    stages {
+        stage('health check'){
+        steps {
+            sh "curl -m 10 http://34.245.28.220:31009/"
+            sh "curl -m 10 http://34.245.28.220:31009/api/getUptime1"
+            }
+            post{
+                failure {
+                    slackSend (color: '#FF0000', message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+
+        }  
+    }
+}
