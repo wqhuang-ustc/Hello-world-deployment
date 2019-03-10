@@ -31,6 +31,15 @@ pipeline {
                 // sh "docker ps -q |xargs docker rm ; ture"
                 // sh "docker images -q |xargs docker rmi; ture"
             }
+
+            post{
+                success {
+                    slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
 
         // stage('trigger deployment_tw'){
