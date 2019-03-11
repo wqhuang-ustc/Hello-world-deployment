@@ -2,6 +2,7 @@
 ## Introduction
 This is a repo for all the deployment file used in build a simple devops process for hello-world project, including dockerfile, jenkinsfile, k8s yml configuration file and script for deployment.<br/>
 To visit the website of hello world project, visit [http://34.245.28.220:31009/](http://34.245.28.220:31009/)
+![DevOps BlockDiagram](https://github.com/wqhuang-ustc/Hello-world-deployment/blob/master/devops.png)
 
 ## Prerequisites
 In order to run this devops solution in your server or local machine, you need to install [docker CE](https://docs.docker.com/install/linux/docker-ce/ubuntu/), [docker-compose](https://docs.docker.com/compose/install/), a [kubernetes cluster](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/), as well as the set up of a [jenkins server](https://jenkins.io/).
