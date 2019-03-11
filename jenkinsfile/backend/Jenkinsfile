@@ -41,21 +41,14 @@ pipeline {
                 }
             }
         }
-
-        // stage('trigger deployment_tw'){
+// uncomment below to trigger deploy_backend pipeline
+        // stage('trigger deploy_backend pipeline'){
         //     steps {
-        //         build job: 'deploy_production_tw', parameters: [
-        //             [$class: 'StringParameterValue', name: 'TAG_BACKEND', value: "${params.TAG_BACKEND}"]
+        //         build job: 'deploy_backend', parameters: [
+        //             [$class: 'StringParameterValue', name: 'TAG', value: "${params.TAG_BACKEND}"]
         //         ]
-        //     }
-        //     post{
-        //         success {
-        //             slackSend (color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        //         }
-        //         failure {
-        //             slackSend (color: '#FF0000', message: "FAILURE: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        //         }
-        //     }            
-        // }       
+        //     }          
+        // }  
+             
     } 
 }
