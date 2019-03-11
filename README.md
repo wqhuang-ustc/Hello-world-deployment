@@ -1,6 +1,7 @@
 # Hello-world-deployment
 ## Introduction
 This is a repo for all the deployment file used in build a simple devops process for hello-world project, including dockerfile, jenkinsfile, k8s yml configuration file and script for deployment.<br/>
+The codes of frontend can be found in [https://github.com/wqhuang-ustc/Hello-world-frontend](https://github.com/wqhuang-ustc/Hello-world-frontend), while the backend code is in [https://github.com/wqhuang-ustc/Hello-world-backend](https://github.com/wqhuang-ustc/Hello-world-backend).<br/>
 To visit the website of hello world project, visit [http://34.245.28.220:31009/](http://34.245.28.220:31009/)
 ![DevOps BlockDiagram](https://github.com/wqhuang-ustc/Hello-world-deployment/blob/master/devops.png)
 
