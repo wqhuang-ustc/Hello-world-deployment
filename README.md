@@ -12,7 +12,7 @@ In order to run this devops solution in your server or local machine, you need t
 ### Jenkins cluster
 A jenkins master is setup by docker-compose using the [official jenkins image](https://hub.docker.com/r/jenkins/jenkins/) to schedule jenkins jobs. A node is add to jenkins cluster to execute pipeline jobs. Visit this jenkins service in [http://34.245.28.220:8080/](http://34.245.28.220:8080/), contact me for the info of the test user account.<br/>
 
-To speed up the development, 2 jenkins projects are setup to auto the process of building docker images and updating the deployment with docker-compose on test server.
+To speed up the development, 2 jenkins projects are setup to auto the process of building docker images and updating the deployment with docker-compose on test server. The deployment of the test server can be found in [http://34.245.28.220](http://34.245.28.220).
 1. frontend-auto: Triggered by the Github webhook(push event) of frontend repo and send message to slack.
 2. backend-auto: Triggered by the Github webhook(push event) of backend repo and send message to slack.
 <br/>
