@@ -12,6 +12,9 @@ In order to run this devops solution in your server or local machine, you need t
 ### Jenkins cluster
 A jenkins master is setup by docker-compose using the [official jenkins image](https://hub.docker.com/r/jenkins/jenkins/) to schedule jenkins jobs. A node is add to jenkins cluster to execute pipeline jobs. Visit this jenkins service in [http://34.245.28.220:8080/](http://34.245.28.220:8080/), contact me for the info of the test user account.<br/>
 
+To speed up the development, 2 jenkins projects are setup to auto the process of building docker images and updating the deployment with docker-compose on test server.
+1. frontend-auto: Triggered by the Github webhook(push event) of frontend repo and send message to slack.
+1. backend-auto: Triggered by the Github webhook(push event) of backend repo and send message to slack.
 Five jenkins pipeline are implemented for CI&CD purpose as well as health check of the deployed service:<br/>
 
 1. Frontend pipeline: build frontend image and push to docker hub, send message to slack to report to success or failure of this job. A TAG_FRONTEND parameter is used to control the version of the image.
