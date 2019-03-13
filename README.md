@@ -14,7 +14,8 @@ A jenkins master is setup by docker-compose using the [official jenkins image](h
 
 To speed up the development, 2 jenkins projects are setup to auto the process of building docker images and updating the deployment with docker-compose on test server.
 1. frontend-auto: Triggered by the Github webhook(push event) of frontend repo and send message to slack.
-1. backend-auto: Triggered by the Github webhook(push event) of backend repo and send message to slack.
+2. backend-auto: Triggered by the Github webhook(push event) of backend repo and send message to slack.
+<br/>
 Five jenkins pipeline are implemented for CI&CD purpose as well as health check of the deployed service:<br/>
 
 1. Frontend pipeline: build frontend image and push to docker hub, send message to slack to report to success or failure of this job. A TAG_FRONTEND parameter is used to control the version of the image.
