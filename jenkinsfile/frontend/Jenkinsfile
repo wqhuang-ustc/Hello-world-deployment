@@ -4,7 +4,7 @@ pipeline {
     } 
     parameters {
         //string for image version control
-        string(name: 'TAG_FRONTEND',defaultValue: '0.0.0', description: 'use this parameter to control the version of docker image')
+        string(name: 'TAG_FRONTEND',defaultValue: 'latest', description: 'use this parameter to control the version of docker image')
     }
     stages {
         
