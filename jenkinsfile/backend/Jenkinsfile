@@ -45,7 +45,7 @@ pipeline {
 // uncomment below to trigger deploy_backend pipeline
         stage('trigger deploy_backend pipeline'){
             steps {
-                build job: 'deploy_backend', parameters: [
+                build job: 'deploy-backend', parameters: [
                     [$class: 'StringParameterValue', name: 'TAG', value: "${params.TAG_BACKEND}"]
                 ]
             }          

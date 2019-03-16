@@ -45,7 +45,7 @@ pipeline {
 // uncomment below code to trigger deploy_frontend pipeline job
         stage('trigger deploy_frontend pipeline'){
             steps {
-                build job: 'deploy_frontend', parameters: [
+                build job: 'deploy-frontend', parameters: [
                     [$class: 'StringParameterValue', name: 'TAG', value: "${params.TAG_FRONTEND}"]
                 ]
             }            
