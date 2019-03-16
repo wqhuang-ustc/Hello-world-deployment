@@ -28,6 +28,7 @@ pipeline {
                 //rm image after push to save disk
                 sh "docker rmi -f registry.hub.docker.com/kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
                 sh "docker rmi -f registry.hub.docker.com/kylinhuang/hello_world_frontend:latest"
+                sh "docker rmi -f kylinhuang/hello_world_frontend:${params.TAG_FRONTEND}"
                 // sh "docker ps -q |xargs docker rm ; ture"
                 // sh "docker images -q |xargs docker rmi; ture"
             }
@@ -42,12 +43,12 @@ pipeline {
             }
         }
 // uncomment below code to trigger deploy_frontend pipeline job
-        // stage('trigger deploy_frontend pipeline'){
-        //     steps {
-        //         build job: 'deploy_frontend', parameters: [
-        //             [$class: 'StringParameterValue', name: 'TAG', value: "${params.TAG_FRONTEND}"]
-        //         ]
-        //     }            
-        // }       
+        stage('trigger deploy_frontend pipeline'){
+            steps {
+                build job: 'deploy_frontend', parameters: [
+                    [$class: 'StringParameterValue', name: 'TAG', value: "${params.TAG_FRONTEND}"]
+                ]
+            }            
+        }       
     } 
 }

@@ -28,6 +28,7 @@ pipeline {
                 //rm image after push to save disk
                 sh "docker rmi -f registry.hub.docker.com/kylinhuang/hello_world_backend:${params.TAG_BACKEND}"
                 sh "docker rmi -f registry.hub.docker.com/kylinhuang/hello_world_backend:latest"
+                sh "docker rmi -f kylinhuang/hello_world_backend:${params.TAG_BACKEND}"
                 // sh "docker ps -q |xargs docker rm ; ture"
                 // sh "docker images -q |xargs docker rmi; ture"
             }
@@ -42,13 +43,13 @@ pipeline {
             }
         }
 // uncomment below to trigger deploy_backend pipeline
-        // stage('trigger deploy_backend pipeline'){
-        //     steps {
-        //         build job: 'deploy_backend', parameters: [
-        //             [$class: 'StringParameterValue', name: 'TAG', value: "${params.TAG_BACKEND}"]
-        //         ]
-        //     }          
-        // }  
+        stage('trigger deploy_backend pipeline'){
+            steps {
+                build job: 'deploy_backend', parameters: [
+                    [$class: 'StringParameterValue', name: 'TAG', value: "${params.TAG_BACKEND}"]
+                ]
+            }          
+        }  
              
     } 
 }
